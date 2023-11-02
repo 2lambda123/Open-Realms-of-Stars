@@ -966,6 +966,9 @@ public class StarMap {
             starbaseFleet.addShip(ship);
             ship.setFlag(Ship.FLAG_STARBASE_DEPLOYED, true);
             fleet = starbaseFleet;
+            if (ship.getHull().getName().equals("Artificial planet")) {
+              createArtificialPlanet(starbaseFleet, playerInfo);
+            }
           }
           if (ship.getHull().getName().equals("Artificial planet")) {
             createArtificialPlanet(starbaseFleet, playerInfo);
