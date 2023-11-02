@@ -260,6 +260,16 @@ public class StarMapMouseListener extends MouseAdapter {
       } else {
         mapInfoPanel.disableFixTradeBtn();
       }
+    } else if (fleet.getCommander() != null) {
+      Planet nearByPlanet = starMap.getPlanetNextToCoordinate(
+          fleet.getCoordinate());
+      if (nearByPlanet != null
+          && nearByPlanet.getPlanetPlayerInfo() == null
+          && !nearByPlanet.isEventActivated()) {
+        mapInfoPanel.setExploreBtn();
+      } else {
+        mapInfoPanel.disableFixTradeBtn();
+      }
     } else {
       mapInfoPanel.disableFixTradeBtn();
     }

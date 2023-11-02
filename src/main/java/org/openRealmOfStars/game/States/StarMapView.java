@@ -516,6 +516,28 @@ public class StarMapView extends BlackPanel {
       infoPanel.updatePanel(map.isDebug());
       getStarMapMouseListener().hideRoutePlanning();
     }
+    if (arg0.getActionCommand().equalsIgnoreCase(GameCommands.COMMAND_EXPLORE)
+        && getStarMapMouseListener().getLastClickedFleet() != null
+        && infoPanel.getFleetOwner() == players.getCurrentPlayerInfo()) {
+      Fleet fleet = getStarMapMouseListener().getLastClickedFleet();
+      Planet nearByPlanet = map.getPlanetNextToCoordinate(
+          fleet.getCoordinate());
+      if (nearByPlanet != null
+          && nearByPlanet.getPlanetPlayerInfo() == null
+          && !nearByPlanet.isEventActivated()
+          && fleet.getMovesLeft() > 0) {
+        // FIXME change sound
+        fleet.setMovesLeft(0);
+        fleet.setRoute(new Route(fleet.getX(), fleet.getY(), fleet.getX(),
+            fleet.getY(), Route.ROUTE_EXPLORED));
+        SoundPlayer.playMenuSound();
+        nearByPlanet.eventActivation(map.isTutorialEnabled(),
+            fleet.getCommander(), infoPanel.getFleetOwner());
+      } else {
+        SoundPlayer.playMenuDisabled();
+      }
+    }
+
     if (arg0.getActionCommand()
         .equalsIgnoreCase(GameCommands.COMMAND_FOCUS_TARGET)) {
       if (getStarMapMouseListener().getLastClickedFleet() != null) {
